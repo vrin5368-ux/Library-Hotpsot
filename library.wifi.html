@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+<meta charset="UTF-8">
+<title>Library Wi-Fi Guide</title>
+
+<!-- Fonts: Manrope for English headings, Noto Sans Khmer for Khmer text -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Noto+Sans+Khmer:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+  /* ============================================
+     1. COLORS — change these to re-theme the whole page
+     ============================================ */
+  :root {
+    --navy: #12213B;        /* main background */
+    --navy-deep: #0B1729;   /* darker background / text on gold */
+    --gold: #E3AE4E;        /* accent color (step numbers, badges) */
+    --gold-soft: #F3D89B;   /* light gold text */
+    --paper: #F6F2E7;       /* cream color, used behind the QR code */
+    --ink: #F6F2E7;         /* main text color (off-white) */
+    --ink-dim: #C7CEDB;     /* secondary/dimmer text */
+    --blue-line: #33507A;   /* divider lines */
+    --green: #4F9E6E;       /* success color */
+    --green-soft: #E4F3E9;  /* light green background */
+  }
+
+  /* ============================================
+     2. BASE PAGE SETUP
+     ============================================ */
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: var(--navy-deep);
+    font-family: 'Inter', 'Noto Sans Khmer', sans-serif;
+    color: var(--ink);
+    display: flex;
+    justify-content: center;
+  }
+
+  /* The poster itself — a fixed-width card centered on the page */
+  .poster {
+    width: 720px;
+    max-width: 100%;
+    background: var(--navy);
+    padding: 56px 48px 44px;
+  }
+
+  /* ============================================
+     3. HEADER TEXT
+     ============================================ */
+  .kicker {
+    font-family: 'Noto Sans Khmer', sans-serif;
+    font-size: 15px;
+    color: var(--gold-soft);
+    margin-bottom: 6px;
+  }
+
+  h1 {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 800;
+    font-size: 38px;
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+
+  .title-km {
+    font-family: 'Noto Sans Khmer', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--gold-soft);
+    margin-bottom: 34px;
+    line-height: 1.5;
+  }
+
+  /* ============================================
+     4. STEP LIST — each step is a number + text + a small screen mockup
+     ============================================ */
+  .steps {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .step {
+    display: flex;
+    gap: 22px;
+    padding: 26px 0;
+    border-top: 1px solid var(--blue-line);
+  }
+
+  .num {
+    /* the small circle showing 1, 2, 3, 4 */
+    font-family: 'Manrope', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    color: var(--navy-deep);
+    background: var(--gold);
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .step-body {
+    flex: 1;
+  }
+
+  .step-en {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 19px;
+    margin-bottom: 4px;
+  }
+
+  .step-km {
+    font-family: 'Noto Sans Khmer', sans-serif;
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: var(--ink-dim);
+  }
+
+  .network-name {
+    font-weight: 700;
+    color: var(--gold-soft);
+  }
+
+  /* small pill-shaped labels, e.g. "Wi-Fi", "Advanced" */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--blue-line);
+    border-radius: 7px;
+    padding: 6px 11px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 14px;
+  }
+
+  .chip.green {
+    background: var(--green-soft);
+    border-color: var(--green);
+    color: #205C3B;
+  }
+
+  .chip svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* the little screenshot-style illustration under each step */
+  .mock {
+    margin-top: 16px;
+    width: 320px;
+    max-width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--blue-line);
+    display: block; /* works for both <svg> and <img> */
+  }
+
+  /* ============================================
+     5. FOOTER — badges + QR code
+     ============================================ */
+  .footer {
+    margin-top: 36px;
+    padding-top: 26px;
+    border-top: 1px solid var(--blue-line);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .badges {
+    display: flex;
+    gap: 12px;
+  }
+
+  .badge {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--gold);
+    border-radius: 8px;
+    padding: 12px 16px;
+  }
+
+   .badge svg {
+    width: 22px;
+    height: 22px;
+    color: var(--navy-deep);
+  }
+
+  .badge-text {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    color: var(--navy-deep);
+  } 
+
+  /* the QR code badge is a fixed square instead of stretching */
+  .badge.qr-badge {
+    flex: 1;
+    background: var(--paper);
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px;
+    cursor: pointer; /* shows it's clickable */
+  }
+
+  .badge.qr-badge img {
+    width: 80%;
+    height: 200px;
+    display: block;
+  }
+
+  .qr-caption {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    color: var(--navy-deep);
+  }
+
+  .footer-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .footer-left svg {
+    width: 22px;
+    height: 22px;
+    color: var(--gold);
+  }
+
+  .footer-text-en {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+  }
+
+  .footer-text-km {
+    font-family: 'Noto Sans Khmer', sans-serif;
+    font-size: 13px;
+    color: var(--ink-dim);
+    margin-top: 2px;
+  }
+
+  .link-text {
+    font-family: 'Manrope', monospace;
+    font-size: 11px;
+    color: var(--gold-soft);
+    margin-top: 6px;
+    word-break: break-all;
+  }
+
+  /* small "Copied!" message that pops up when the QR is clicked */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--green);
+    color: white;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 10px 18px;
+    border-radius: 8px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+</style>
+</head>
+<body>
+
+<div class="poster">
+
+  <!-- ===== HEADER ===== -->
+  <div class="kicker">របៀបភ្ជាប់ Library Hotspot</div>
+  <h1>Connect to the Library Wi-Fi</h1>
+  <div class="title-km">ណែនាំការភ្ជាប់ Wi-Fi Hotspot នៅបណ្ណាល័យ ក្នុង ៤ ជំហាន</div>
+
+  <!-- ===== STEPS ===== -->
+  <div class="steps">
+
+    <!-- Step 1 -->
+    <div class="step">
+      <div class="num">1</div>
+      <div class="step-body">
+        <div class="step-en">Turn on Wi‑Fi and select <span class="network-name">Library‑Hotspot</span></div>
+        <div class="step-km">បើកកុងតាក់ Wi‑Fi ក្នុងទូរស័ព្ទ ឬកុំព្យូទ័ររបស់អ្នក រួចជ្រើសរើសបណ្តាញឈ្មោះ Library‑Hotspot ពីបញ្ជី</div>
+        <span class="chip">Wi‑Fi settings</span>
+        <!-- Replace "step1.jpg" with your own photo filename -->
+        <img class="mock" src="./image.html/image.png" alt="Wi-Fi settings screen">
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step">
+      <div class="num">2</div>
+      <div class="step-body">
+        <div class="step-en">Tap <span class="network-name">Access</span> on the welcome page</div>
+        <div class="step-km">ទំព័រស្វាគមន៍ពណ៌បៃតងនឹងបើកដោយស្វ័យប្រវត្តិ។ ចុចប៊ូតុង Access ដើម្បីចូលប្រើអ៊ីនធឺណិត</div>
+        <span class="chip">Browser opens automatically</span>
+        <!-- Replace "step2.jpg" with your own photo filename -->
+        <img class="mock" src="./image.html/two.html/image.png" alt="Welcome page with Access button">
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step">
+      <div class="num">3</div>
+      <div class="step-body">
+        <div class="step-en">If you see a security warning, tap through it</div>
+        <div class="step-km">ប្រសិនបើឃើញសារព្រមានសុវត្ថិភាព នេះជារឿងធម្មតា សូមចុច Advanced រួចចុច Proceed anyway ដើម្បីបន្ត</div>
+        <span class="chip">Advanced → Proceed anyway</span>
+        <!-- Replace "step3.jpg" with your own photo filename -->
+        <img class="mock" src="./image.html/three.html/image.png" alt="Security warning screen">
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step">
+      <div class="num">4</div>
+      <div class="step-body">
+        <div class="step-en">You're connected once you see "Internet Access"</div>
+        <div class="step-km">នៅពេលឃើញសារ Internet Access ជាមួយសញ្ញាធីកពណ៌បៃតង មានន័យថាអ្នកបានភ្ជាប់ជោគជ័យ</div>
+        <span class="chip green">✓ Internet Access</span>
+        <!-- Replace "step4.jpg" with your own photo filename -->
+        <img class="mock" src="./image.html/fore.html/image.png" alt="Internet Access confirmation screen">
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== FOOTER: badges + QR code ===== -->
+  <div class="footer">
+    <div class="badges">
+      <div class="badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12.5a11 11 0 0 1 14 0M8 16a6.5 6.5 0 0 1 8 0M12 19.5h.01"/></svg>
+        <span class="badge-text">FREE WI‑FI</span>
+      </div>
+
+      <!-- QR code badge: clicking it copies the portal link -->
+      <div class="badge qr-badge" id="qrBadge">
+        <span class="qr-caption">SCAN TO CONNECT</span>
+        <img src="./image.png" alt="QR Code WIFI">
+      </div>
+    </div>
+
+    <div class="footer-left">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.5a11 11 0 0 1 14 0M8 16a6.5 6.5 0 0 1 8 0M12 19.5h.01"/></svg>
+      <div>
+        <div class="footer-text-en">Free Wi‑Fi for all visitors</div>
+        <div class="footer-text-km">ត្រូវការជំនួយ? សូមសួរបុគ្គលិកបណ្ណាល័យ · Need help? Ask library staff</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Small popup that says "Copied!" -->
+<div class="toast" id="toast">Link copied!</div>
+
+<script>
+  // The full portal link the QR code points to
+  const portalUrl = "http://192.168.41.12:19008/portal?lsw-mac=10a4daa97300&ap-mac=6c26369d5580&redirect-url=http%3A%2F%2Fedge-http.microsoft.com%2Fcaptiveportal%2Fgenerate_204&ssid=Library-Hotspot&uaddress=10.4.33.118&umac=a8e29122da1a";
+
+  const qrBadge = document.getElementById("qrBadge");
+  const toast = document.getElementById("toast");
+
+  // When someone clicks the QR code, copy the link and show a small confirmation
+  qrBadge.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(portalUrl);
+      showToast();
+    } catch (err) {
+      // clipboard access can fail (e.g. no permission) — fail quietly
+      console.log("Could not copy link:", err);
+    }
+  });
+
+  function showToast() {
+    toast.classList.add("show");
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 1800);
+  }
+</script>
+
+</body>
+</html>
